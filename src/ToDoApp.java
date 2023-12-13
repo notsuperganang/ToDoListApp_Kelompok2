@@ -1,5 +1,8 @@
 // Commit 1: Struktur Dasar Antarmuka Pengguna (GUI)
 import java.awt.Color;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ToDoApp extends javax.swing.JFrame {
@@ -235,8 +238,38 @@ public class ToDoApp extends javax.swing.JFrame {
     setLocationRelativeTo(null);
   }
 
+  // Commit 2: Penambahan Fungsionalitas Tambah Tugas
   private void addButtonPerformed(java.awt.event.ActionEvent evt) {
-    // To be implemented in a later commit
+    try {
+        String task = fieldText.getText().trim();
+
+        if (!task.isEmpty()) {
+            if (!isTaskExists(task)) {
+                FileOutputStream f = new FileOutputStream("task.txt", true);
+                PrintStream p = new PrintStream(f);
+                p.println(task);
+                JOptionPane.showMessageDialog(null, "Task Added Successfully!");
+                setDataToTable();
+                p.close();
+                f.close();
+
+                fieldText.setText(null);
+            } else {
+                JOptionPane.showMessageDialog(null, "Task already exists.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Task cannot be empty or contain only spaces."
+            );
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+  }
+
+  private boolean isTaskExists(String task) {
+    return false;
   }
 
   private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
