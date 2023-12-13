@@ -1,4 +1,3 @@
-// Commit 1: Struktur Dasar Antarmuka Pengguna (GUI)
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,38 +10,21 @@ import javax.swing.table.DefaultTableModel;
 
 public class ToDoApp extends javax.swing.JFrame {
 
+  private javax.swing.JButton addButton;
+  private javax.swing.JButton deleteButton;
+  private javax.swing.JTextField fieldText;
+  private javax.swing.JLabel label1;
+  private javax.swing.JLabel label2;
+  private javax.swing.JPanel panel1;
+  private javax.swing.JScrollPane scrollPaint;
+  private javax.swing.JTable tableContainer;
+
   public ToDoApp() {
     initComponents();
     getContentPane().setBackground(Color.LIGHT_GRAY);
-    setDataToTable(); // Memasukkan data tugas dari file "task.txt" ke dalam tabel.
+    setDataToTable();
   }
 
-  private void setDataToTable() {
-    DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
-    int rc = dtm.getRowCount();
-    while (rc-- != 0) {
-      dtm.removeRow(0);
-    }
-    try {
-      FileInputStream f = new FileInputStream("task.txt");
-      Scanner sc = new Scanner(f);
-      while (sc.hasNextLine()) {
-        try {
-          Vector row = new Vector();
-          row.add(sc.nextLine());
-          dtm.addRow(row);
-        } catch (Exception ex) {
-          break;
-        }
-      }
-      f.close();
-      sc.close();
-    } catch (Exception ex) {
-      JOptionPane.showMessageDialog(null, ex.getMessage());
-    }
-  }
-
-  @SuppressWarnings("unchecked")
   private void initComponents() {
     panel1 = new javax.swing.JPanel();
     label1 = new javax.swing.JLabel();
@@ -251,7 +233,6 @@ public class ToDoApp extends javax.swing.JFrame {
     setLocationRelativeTo(null);
   }
 
-  // Commit 2: Penambahan Fungsionalitas Tambah Tugas
   private void addButtonPerformed(java.awt.event.ActionEvent evt) {
     try {
       String task = fieldText.getText().trim();
@@ -281,21 +262,6 @@ public class ToDoApp extends javax.swing.JFrame {
     }
   }
 
-  // Commit 3: Penambahan Fungsionalitas Pengecekan
-  private boolean isTaskExists(String task) {
-    DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
-    int rowCount = dtm.getRowCount();
-
-    for (int i = 0; i < rowCount; i++) {
-      String existingTask = (String) dtm.getValueAt(i, 0);
-      if (newTask.equalsIgnoreCase(existingTask)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // Commit 4: Penambahan Fungsionalitas Hapus Tugas
   private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
     int rowIndex = tableContainer.getSelectedRow();
     if (rowIndex != -1) {
@@ -305,7 +271,7 @@ public class ToDoApp extends javax.swing.JFrame {
         PrintStream p = new PrintStream(f);
         FileInputStream ff = new FileInputStream("task.txt");
         Scanner sc = new Scanner(ff);
-        while (true) {
+        while (sc.hasNextLine()) {
           try {
             String s = sc.nextLine();
             if (!task.equalsIgnoreCase(s)) {
@@ -338,7 +304,44 @@ public class ToDoApp extends javax.swing.JFrame {
     }
   }
 
-  // Commit 5: Penyesuaian Metode Main
+  private void setDataToTable() {
+    DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
+    int rc = dtm.getRowCount();
+    while (rc-- != 0) {
+      dtm.removeRow(0);
+    }
+    try {
+      FileInputStream f = new FileInputStream("task.txt");
+      Scanner sc = new Scanner(f);
+      while (sc.hasNextLine()) {
+        try {
+          Vector row = new Vector();
+          row.add(sc.nextLine());
+          dtm.addRow(row);
+        } catch (Exception ex) {
+          break;
+        }
+      }
+      f.close();
+      sc.close();
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+  }
+
+  private boolean isTaskExists(String newTask) {
+    DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
+    int rowCount = dtm.getRowCount();
+
+    for (int i = 0; i < rowCount; i++) {
+      String existingTask = (String) dtm.getValueAt(i, 0);
+      if (newTask.equalsIgnoreCase(existingTask)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static void main(String args[]) {
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -347,19 +350,30 @@ public class ToDoApp extends javax.swing.JFrame {
           break;
         }
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    } catch (ClassNotFoundException ex) {
+      java.util.logging.Logger
+        .getLogger(ToDoApp.class.getName())
+        .log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+      java.util.logging.Logger
+        .getLogger(ToDoApp.class.getName())
+        .log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+      java.util.logging.Logger
+        .getLogger(ToDoApp.class.getName())
+        .log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+      java.util.logging.Logger
+        .getLogger(ToDoApp.class.getName())
+        .log(java.util.logging.Level.SEVERE, null, ex);
     }
 
-    java.awt.EventQueue.invokeLater(() -> new ToDoApp().setVisible(true));
+    java.awt.EventQueue.invokeLater(
+      new Runnable() {
+        public void run() {
+          new ToDoApp().setVisible(true);
+        }
+      }
+    );
   }
-
-  private javax.swing.JButton addButton;
-  private javax.swing.JButton deleteButton;
-  private javax.swing.JLabel label1;
-  private javax.swing.JLabel label2;
-  private javax.swing.JPanel panel1;
-  private javax.swing.JScrollPane scrollPaint;
-  private javax.swing.JTable tableContainer;
-  private javax.swing.JTextField fieldText;
 }
