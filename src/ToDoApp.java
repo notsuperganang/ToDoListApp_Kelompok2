@@ -354,3 +354,47 @@ public class ToDoApp extends javax.swing.JFrame {
   private javax.swing.JTable tableContainer;
   private javax.swing.JTextField fieldText;
 }
+
+// Commit 8: Penambahan Fungsionalitas Memasukkan Data Tugas ke Dalam Tabel
+import java.awt.Color;
+import java.io.FileInputStream;
+import java.util.Scanner;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class ToDoApp extends javax.swing.JFrame {
+    /**
+     * Konstruktor untuk membuat objek ToDoApp dan menginisialisasi komponen GUI.
+     */
+    public ToDoApp() {
+        initComponents();
+        getContentPane().setBackground(Color.LIGHT_GRAY);
+        setDataToTable(); // Memasukkan data tugas dari file "task.txt" ke dalam tabel.
+    }
+
+    private void setDataToTable() {
+        DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
+        int rc = dtm.getRowCount();
+        while (rc-- != 0) {
+            dtm.removeRow(0);
+        }
+        try {
+            FileInputStream f = new FileInputStream("task.txt");
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                try {
+                    Vector row = new Vector();
+                    row.add(sc.nextLine());
+                    dtm.addRow(row);
+                } catch (Exception ex) {
+                    break;
+                }
+            }
+            f.close();
+            sc.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
+}
