@@ -14,7 +14,7 @@ public class ToDoApp extends javax.swing.JFrame {
   public ToDoApp() {
     initComponents();
     getContentPane().setBackground(Color.LIGHT_GRAY);
-    setDataToTable();
+    setDataToTable(); // Memasukkan data tugas dari file "task.txt" ke dalam tabel.
   }
 
   private void setDataToTable() {
@@ -24,12 +24,21 @@ public class ToDoApp extends javax.swing.JFrame {
       dtm.removeRow(0);
     }
     try {
-      // Simulasi data dari file "task.txt"
-      dtm.addRow(new Object[] { "Task 1" });
-      dtm.addRow(new Object[] { "Task 2" });
-      dtm.addRow(new Object[] { "Task 3" });
+      FileInputStream f = new FileInputStream("task.txt");
+      Scanner sc = new Scanner(f);
+      while (sc.hasNextLine()) {
+        try {
+          Vector row = new Vector();
+          row.add(sc.nextLine());
+          dtm.addRow(row);
+        } catch (Exception ex) {
+          break;
+        }
+      }
+      f.close();
+      sc.close();
     } catch (Exception ex) {
-      // Handle exception if needed
+      JOptionPane.showMessageDialog(null, ex.getMessage());
     }
   }
 
@@ -353,48 +362,4 @@ public class ToDoApp extends javax.swing.JFrame {
   private javax.swing.JScrollPane scrollPaint;
   private javax.swing.JTable tableContainer;
   private javax.swing.JTextField fieldText;
-}
-
-// Commit 8: Penambahan Fungsionalitas Memasukkan Data Tugas ke Dalam Tabel
-import java.awt.Color;
-import java.io.FileInputStream;
-import java.util.Scanner;
-import java.util.Vector;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
-public class ToDoApp extends javax.swing.JFrame {
-    /**
-     * Konstruktor untuk membuat objek ToDoApp dan menginisialisasi komponen GUI.
-     */
-    public ToDoApp() {
-        initComponents();
-        getContentPane().setBackground(Color.LIGHT_GRAY);
-        setDataToTable(); // Memasukkan data tugas dari file "task.txt" ke dalam tabel.
-    }
-
-    private void setDataToTable() {
-        DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
-        int rc = dtm.getRowCount();
-        while (rc-- != 0) {
-            dtm.removeRow(0);
-        }
-        try {
-            FileInputStream f = new FileInputStream("task.txt");
-            Scanner sc = new Scanner(f);
-            while (sc.hasNextLine()) {
-                try {
-                    Vector row = new Vector();
-                    row.add(sc.nextLine());
-                    dtm.addRow(row);
-                } catch (Exception ex) {
-                    break;
-                }
-            }
-            f.close();
-            sc.close();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }
 }
