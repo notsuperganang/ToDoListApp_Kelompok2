@@ -4,6 +4,9 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class ToDoApp extends javax.swing.JFrame {
 
@@ -269,6 +272,15 @@ public class ToDoApp extends javax.swing.JFrame {
   }
 
   private boolean isTaskExists(String task) {
+    DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
+        int rowCount = dtm.getRowCount();
+
+        for (int i = 0; i < rowCount; i++) {
+            String existingTask = (String) dtm.getValueAt(i, 0);
+            if (newTask.equalsIgnoreCase(existingTask)) {
+                return true;
+            }
+        }
     return false;
   }
 
