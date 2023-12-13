@@ -1,12 +1,13 @@
 // Commit 1: Struktur Dasar Antarmuka Pengguna (GUI)
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Color;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import java.util.Vector;
 
 public class ToDoApp extends javax.swing.JFrame {
 
@@ -271,6 +272,7 @@ public class ToDoApp extends javax.swing.JFrame {
     }
   }
 
+  // Commit 3: Penambahan Fungsionalitas Pengecekan 
   private boolean isTaskExists(String task) {
     DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
         int rowCount = dtm.getRowCount();
@@ -284,8 +286,47 @@ public class ToDoApp extends javax.swing.JFrame {
     return false;
   }
 
+  // Commit 4: Penambahan Fungsionalitas Hapus Tugas
   private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    // To be implemented in a later commit
+    int rowIndex = tableContainer.getSelectedRow();
+    if (rowIndex != -1) {
+      String task = (String) tableContainer.getValueAt(rowIndex, 0);
+      try {
+        FileOutputStream f = new FileOutputStream("temp.txt");
+        PrintStream p = new PrintStream(f);
+        FileInputStream ff = new FileInputStream("task.txt");
+        Scanner sc = new Scanner(ff);
+        while (true) {
+          try {
+            String s = sc.nextLine();
+            if (!task.equalsIgnoreCase(s)) {
+              p.println(s);
+            }
+          } catch (Exception ex) {
+            break;
+          }
+        }
+        p.close();
+        ff.close();
+        sc.close();
+        f.close();
+
+        File file = new File("task.txt");
+        file.delete();
+        File tempFile = new File("temp.txt");
+        File newFile = new File("task.txt");
+        tempFile.renameTo(newFile);
+
+        setDataToTable();
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+      }
+    } else {
+      JOptionPane.showMessageDialog(
+        null,
+        "Please select the task you want to delete"
+      );
+    }
   }
 
   public static void main(String args[]) {
