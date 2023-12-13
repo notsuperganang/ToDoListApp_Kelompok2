@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.util.Vector;
 
 public class ToDoApp extends javax.swing.JFrame {
 
@@ -245,44 +245,44 @@ public class ToDoApp extends javax.swing.JFrame {
   // Commit 2: Penambahan Fungsionalitas Tambah Tugas
   private void addButtonPerformed(java.awt.event.ActionEvent evt) {
     try {
-        String task = fieldText.getText().trim();
+      String task = fieldText.getText().trim();
 
-        if (!task.isEmpty()) {
-            if (!isTaskExists(task)) {
-                FileOutputStream f = new FileOutputStream("task.txt", true);
-                PrintStream p = new PrintStream(f);
-                p.println(task);
-                JOptionPane.showMessageDialog(null, "Task Added Successfully!");
-                setDataToTable();
-                p.close();
-                f.close();
+      if (!task.isEmpty()) {
+        if (!isTaskExists(task)) {
+          FileOutputStream f = new FileOutputStream("task.txt", true);
+          PrintStream p = new PrintStream(f);
+          p.println(task);
+          JOptionPane.showMessageDialog(null, "Task Added Successfully!");
+          setDataToTable();
+          p.close();
+          f.close();
 
-                fieldText.setText(null);
-            } else {
-                JOptionPane.showMessageDialog(null, "Task already exists.");
-            }
+          fieldText.setText(null);
         } else {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Task cannot be empty or contain only spaces."
-            );
+          JOptionPane.showMessageDialog(null, "Task already exists.");
         }
+      } else {
+        JOptionPane.showMessageDialog(
+          null,
+          "Task cannot be empty or contain only spaces."
+        );
+      }
     } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage());
+      JOptionPane.showMessageDialog(null, ex.getMessage());
     }
   }
 
-  // Commit 3: Penambahan Fungsionalitas Pengecekan 
+  // Commit 3: Penambahan Fungsionalitas Pengecekan
   private boolean isTaskExists(String task) {
     DefaultTableModel dtm = (DefaultTableModel) tableContainer.getModel();
-        int rowCount = dtm.getRowCount();
+    int rowCount = dtm.getRowCount();
 
-        for (int i = 0; i < rowCount; i++) {
-            String existingTask = (String) dtm.getValueAt(i, 0);
-            if (newTask.equalsIgnoreCase(existingTask)) {
-                return true;
-            }
-        }
+    for (int i = 0; i < rowCount; i++) {
+      String existingTask = (String) dtm.getValueAt(i, 0);
+      if (newTask.equalsIgnoreCase(existingTask)) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -331,22 +331,6 @@ public class ToDoApp extends javax.swing.JFrame {
 
   // Commit 5: Penyesuaian Metode Main
   public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        java.awt.EventQueue.invokeLater(() -> new ToDoApp().setVisible(true));
-    }
-
-
-  public static void main(String args[]) {
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
         if ("Nimbus".equals(info.getName())) {
@@ -358,13 +342,7 @@ public class ToDoApp extends javax.swing.JFrame {
       ex.printStackTrace();
     }
 
-    java.awt.EventQueue.invokeLater(
-      new Runnable() {
-        public void run() {
-          new ToDoApp().setVisible(true);
-        }
-      }
-    );
+    java.awt.EventQueue.invokeLater(() -> new ToDoApp().setVisible(true));
   }
 
   private javax.swing.JButton addButton;
