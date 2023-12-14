@@ -16,6 +16,14 @@ Aplikasi ToDoApp merupakan program sederhana untuk mencatat dan mengelola daftar
 4. Pilih tugas yang ingin dihapus dan tekan tombol "Delete Task".
 5. Tugas akan ditampilkan dalam tabel.
 
+## Kontributor
+- Ganang Setyo Hadi (2208107010052)
+- Nurul Uzratun Nashriyyah (2208107010030)
+- Mila Lestari (2208107010002)
+- Muhammad Ridho (2208107010064)
+- Tiara Agustin (2208107010004)
+- 
+
 ## Kontribusi
 
 Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah-langkah berikut:
