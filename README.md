@@ -17,12 +17,13 @@ Aplikasi ToDoApp merupakan program sederhana untuk mencatat dan mengelola daftar
 5. Tugas akan ditampilkan dalam tabel.
 
 ## Kontributor
-- Ganang Setyo Hadi (2208107010052)
-- Nurul Uzratun Nashriyyah (2208107010030)
-- Mila Lestari (2208107010002)
-- Muhammad Ridho (2208107010064)
-- Tiara Agustin (2208107010004)
-- 
+
+- Ganang Setyo Hadi (2208107010052).
+- Nurul Uzratun Nashriyyah (2208107010030).
+- Mila Lestari (2208107010002).
+- Muhammad Ridho (2208107010064).
+- Tiara Agustin (2208107010004).
+- Elsa Mardhatillah Hariska (2108107010048).
 
 ## Kontribusi
 
